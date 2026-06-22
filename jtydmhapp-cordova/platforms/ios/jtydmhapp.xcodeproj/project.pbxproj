@@ -166,7 +166,7 @@
 		C9E4BC7C2BB95F0100DB6F79 /* libPacketTunnel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C9E4BC7B2BB95F0100DB6F79 /* libPacketTunnel.a */; };
 		C9E4BC7D2BB95FC400DB6F79 /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9B9996B2BB823210020BC17 /* NetworkExtension.framework */; };
 		C9E4BC7E2BB95FD600DB6F79 /* libresolv.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9B9996E2BB8233D0020BC17 /* libresolv.9.tbd */; };
-		C9E4BC802BB9632700DB6F79 /* libiconv.2.4.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9E4BC7F2BB9631E00DB6F79 /* libiconv.2.4.0.tbd */; };
+		C9E4BC802BB9632700DB6F79 /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C9E4BC7F2BB9631E00DB6F79 /* libiconv.tbd */; };
 		C9E9A77C2835D0DB008F8E06 /* UIView+TPAddEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = C9E9A77A2835D0DB008F8E06 /* UIView+TPAddEvent.m */; };
 		C9F377C329374239000ACB5F /* CDVFile.m in Sources */ = {isa = PBXBuildFile; fileRef = C9F376C529374238000ACB5F /* CDVFile.m */; };
 		C9F377C429374239000ACB5F /* CDVAssetLibraryFilesystem.m in Sources */ = {isa = PBXBuildFile; fileRef = C9F376C729374238000ACB5F /* CDVAssetLibraryFilesystem.m */; };
@@ -572,7 +572,7 @@
 		C9E4BC712BB95DE000DB6F79 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C9E4BC792BB95F0100DB6F79 /* SPPacketTunnelProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SPPacketTunnelProvider.h; sourceTree = "<group>"; };
 		C9E4BC7B2BB95F0100DB6F79 /* libPacketTunnel.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libPacketTunnel.a; sourceTree = "<group>"; };
-		C9E4BC7F2BB9631E00DB6F79 /* libiconv.2.4.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.2.4.0.tbd; path = usr/lib/libiconv.2.4.0.tbd; sourceTree = SDKROOT; };
+		C9E4BC7F2BB9631E00DB6F79 /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = usr/lib/libiconv.tbd; sourceTree = SDKROOT; };
 		C9E9A77A2835D0DB008F8E06 /* UIView+TPAddEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+TPAddEvent.m"; sourceTree = "<group>"; };
 		C9E9A77B2835D0DB008F8E06 /* UIView+TPAddEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+TPAddEvent.h"; sourceTree = "<group>"; };
 		C9F376C429374238000ACB5F /* CDVAssetLibraryFilesystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDVAssetLibraryFilesystem.h; sourceTree = "<group>"; };
@@ -804,7 +804,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9E4BC802BB9632700DB6F79 /* libiconv.2.4.0.tbd in Frameworks */,
+				C9E4BC802BB9632700DB6F79 /* libiconv.tbd in Frameworks */,
 				C9E4BC7C2BB95F0100DB6F79 /* libPacketTunnel.a in Frameworks */,
 				C9E4BC7E2BB95FD600DB6F79 /* libresolv.9.tbd in Frameworks */,
 				C9E4BC7D2BB95FC400DB6F79 /* NetworkExtension.framework in Frameworks */,
@@ -876,7 +876,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				C9E4BC7F2BB9631E00DB6F79 /* libiconv.2.4.0.tbd */,
+				C9E4BC7F2BB9631E00DB6F79 /* libiconv.tbd */,
 				C97CB7742BB9556C00C9A3D2 /* UIKit.framework */,
 				C9B999712BB824110020BC17 /* libPacketTunnel.a */,
 				C9B9996E2BB8233D0020BC17 /* libresolv.9.tbd */,
