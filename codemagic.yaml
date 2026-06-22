@@ -13,6 +13,15 @@ workflows:
       cache_paths:
         - $HOME/.npm
     scripts:
+      - name: Verify checked out iOS sources
+        script: |
+          set -euxo pipefail
+          git log -1 --oneline
+
+          if grep -R -n -E '<netinet6/in6.h>|sa_family_t[[:space:]]+hostAddressFamily' "$IOS_DIR"; then
+            echo "Legacy iOS SDK-incompatible source is still present. Make sure this build uses the latest main branch commit."
+            exit 1
+          fi
       - name: Prepare Cordova web assets
         script: |
           set -euxo pipefail
@@ -110,6 +119,15 @@ workflows:
       cache_paths:
         - $HOME/.npm
     scripts:
+      - name: Verify checked out iOS sources
+        script: |
+          set -euxo pipefail
+          git log -1 --oneline
+
+          if grep -R -n -E '<netinet6/in6.h>|sa_family_t[[:space:]]+hostAddressFamily' "$IOS_DIR"; then
+            echo "Legacy iOS SDK-incompatible source is still present. Make sure this build uses the latest main branch commit."
+            exit 1
+          fi
       - name: Prepare Cordova web assets
         script: |
           set -euxo pipefail
