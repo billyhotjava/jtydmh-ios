@@ -49,6 +49,8 @@
 
 #import <Foundation/Foundation.h>
 
+#include <sys/types.h>
+
 #if TARGET_OS_EMBEDDED || TARGET_IPHONE_SIMULATOR
 #import <CFNetwork/CFNetwork.h>
 #else
@@ -282,4 +284,3 @@ __Check_Compile_Time(offsetof(ICMPHeader, code) == 1);
 __Check_Compile_Time(offsetof(ICMPHeader, checksum) == 2);
 __Check_Compile_Time(offsetof(ICMPHeader, identifier) == 4);
 __Check_Compile_Time(offsetof(ICMPHeader, sequenceNumber) == 6);
-
