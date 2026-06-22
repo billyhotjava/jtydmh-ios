@@ -208,3 +208,105 @@ workflows:
     artifacts:
       - build/ios_logs/*.log
       - build/*.xcarchive
+
+  ios-enterprise-ipa:
+    name: iOS enterprise IPA
+    max_build_duration: 60
+    instance_type: mac_mini_m2
+    environment:
+      xcode: latest
+      node: 14.21.3
+      ios_signing:
+        distribution_type: enterprise
+        bundle_identifier: com.eccl.jtmh
+      vars:
+        IOS_DIR: jtydmhapp-cordova/platforms/ios
+        XCODE_SCHEME: jtydmhapp
+    cache:
+      cache_paths:
+        - $HOME/.npm
+    scripts:
+      - name: Verify checked out iOS sources
+        script: |
+          set -euxo pipefail
+          git log -1 --oneline
+
+          if grep -R -n -E '<netinet6/in6.h>|sa_family_t[[:space:]]+hostAddressFamily' "$IOS_DIR"; then
+            echo "Legacy iOS SDK-incompatible source is still present. Make sure this build uses the latest main branch commit."
+            exit 1
+          fi
+      - name: Prepare Cordova web assets
+        script: |
+          set -euxo pipefail
+
+          if [ -f package-lock.json ]; then
+            npm ci && npm run build || echo "Web rebuild failed; using committed jtydmhapp-cordova/www assets."
+          fi
+
+          if [ -d dist ] && [ -f dist/index.html ]; then
+            rm -rf jtydmhapp-cordova/www
+            mkdir -p jtydmhapp-cordova/www
+            cp -R dist/. jtydmhapp-cordova/www/
+          fi
+
+          test -f jtydmhapp-cordova/www/index.html
+          test -f "$IOS_DIR/platform_www/cordova.js"
+
+          rm -rf "$IOS_DIR/www"
+          mkdir -p "$IOS_DIR/www"
+          cp -R jtydmhapp-cordova/www/. "$IOS_DIR/www/"
+          cp -R "$IOS_DIR/platform_www/." "$IOS_DIR/www/"
+      - name: Provide Cordova iOS build helper dependency
+        script: |
+          set -euxo pipefail
+          mkdir -p "$IOS_DIR/node_modules/shelljs"
+          cat > "$IOS_DIR/node_modules/shelljs/index.js" <<'EOF'
+          const fs = require('fs');
+          const path = require('path');
+          const childProcess = require('child_process');
+
+          function normalizePaths(args) {
+            return args.flat().filter(Boolean);
+          }
+
+          exports.rm = function rm(flags, ...paths) {
+            const recursive = String(flags).includes('r');
+            const force = String(flags).includes('f');
+            for (const target of normalizePaths(paths)) {
+              fs.rmSync(target, { recursive, force });
+            }
+            return { code: 0 };
+          };
+
+          exports.cp = function cp(flags, src, dest) {
+            const source = src;
+            let target = dest;
+            if (fs.existsSync(dest) && fs.statSync(dest).isDirectory()) {
+              target = path.join(dest, path.basename(source));
+            }
+            fs.copyFileSync(source, target);
+            return { code: 0 };
+          };
+
+          exports.exec = function exec(command) {
+            try {
+              childProcess.execSync(command, { stdio: 'inherit', shell: '/bin/bash' });
+              return { code: 0 };
+            } catch (error) {
+              return { code: typeof error.status === 'number' ? error.status : 1 };
+            }
+          };
+          EOF
+      - name: Set up code signing settings on Xcode project
+        script: xcode-project use-profiles
+      - name: Build signed enterprise IPA
+        script: |
+          set -euxo pipefail
+          xcode-project build-ipa \
+            --project "$CM_BUILD_DIR/$IOS_DIR/jtydmhapp.xcodeproj" \
+            --scheme "$XCODE_SCHEME"
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - build/ios/xcarchive/*.xcarchive
+      - /tmp/xcodebuild_logs/*.log
+      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
