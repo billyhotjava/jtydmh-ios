@@ -92,7 +92,8 @@ workflows:
             clean build | tee "$CM_BUILD_DIR/build/ios_logs/xcodebuild-device.log"
     artifacts:
       - build/ios_logs/*.log
-      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/Products/**/*.{app,appex}
+      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/Products/**/*.app
+      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/Products/**/*.appex
       - $HOME/Library/Developer/Xcode/DerivedData/**/Build/Products/**/*.dSYM
 
   ios-unsigned-archive:
