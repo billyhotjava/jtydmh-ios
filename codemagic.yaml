@@ -1,6 +1,6 @@
 workflows:
-  ios-simulator-build:
-    name: iOS simulator build, unsigned
+  ios-device-build:
+    name: iOS device build, unsigned
     max_build_duration: 60
     instance_type: mac_mini_m2
     environment:
@@ -75,7 +75,7 @@ workflows:
             }
           };
           EOF
-      - name: Build iOS app for simulator without signing
+      - name: Build iOS app for device without signing
         script: |
           set -euxo pipefail
           mkdir -p "$CM_BUILD_DIR/build/ios_logs"
@@ -83,16 +83,16 @@ workflows:
             -project "$IOS_DIR/jtydmhapp.xcodeproj" \
             -scheme "$XCODE_SCHEME" \
             -configuration Debug \
-            -sdk iphonesimulator \
-            -destination 'generic/platform=iOS Simulator' \
+            -sdk iphoneos \
+            -destination 'generic/platform=iOS' \
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGN_IDENTITY="" \
             DEVELOPMENT_TEAM="" \
-            clean build | tee "$CM_BUILD_DIR/build/ios_logs/xcodebuild-simulator.log"
+            clean build | tee "$CM_BUILD_DIR/build/ios_logs/xcodebuild-device.log"
     artifacts:
       - build/ios_logs/*.log
-      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/Products/**/*.app
+      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/Products/**/*.{app,appex}
       - $HOME/Library/Developer/Xcode/DerivedData/**/Build/Products/**/*.dSYM
 
   ios-unsigned-archive:
