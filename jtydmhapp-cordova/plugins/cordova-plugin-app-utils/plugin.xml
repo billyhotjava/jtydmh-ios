@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin id="cordova-plugin-app-utils" version="1.0.0" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+    <name>AppUtilsPlugin</name>
+    <js-module name="AppUtilsPlugin" src="www/AppUtilsPlugin.js">
+        <clobbers target="AppUtilsPlugin" />
+    </js-module>
+    <platform name="ios">
+        <config-file parent="/*" target="config.xml">
+            <feature name="AppUtilsPlugin">
+                <param name="ios-package" value="AppUtilsPlugin" />
+            </feature>
+        </config-file>
+        <source-file src="src/ios/AppUtilsPlugin.h" />
+        <source-file src="src/ios/AppUtilsPlugin.m" />
+        <source-file src="src/ios/CLCleanCache.h" />
+        <source-file src="src/ios/CLCleanCache.m" />
+    </platform>
+</plugin>

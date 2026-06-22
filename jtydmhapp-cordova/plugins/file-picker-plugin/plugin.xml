@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin id="file-picker-plugin" version="1.0.0" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+    <name>FilePickerPlugin</name>
+    <js-module name="FilePickerPlugin" src="www/FilePickerPlugin.js">
+        <clobbers target="FilePickerPlugin" />
+    </js-module>
+    <platform name="ios">
+        <config-file parent="/*" target="config.xml">
+            <feature name="FilePickerPlugin">
+                <param name="ios-package" value="FilePickerPlugin" />
+            </feature>
+        </config-file>
+        <source-file src="src/ios/CLICloudManager.h" />
+        <source-file src="src/ios/CLICloudManager.m" />
+        <source-file src="src/ios/FilePickerPlugin.h" />
+        <source-file src="src/ios/FilePickerPlugin.m" />
+    </platform>
+</plugin>

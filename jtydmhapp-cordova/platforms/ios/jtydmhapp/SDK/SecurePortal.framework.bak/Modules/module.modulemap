@@ -1,0 +1,6 @@
+framework module SecurePortal {
+  umbrella header "SecurePortal.h"
+
+  export *
+  module * { export * }
+}

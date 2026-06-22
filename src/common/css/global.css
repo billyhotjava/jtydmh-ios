@@ -1,0 +1,95 @@
+.mint-header {
+    height: 45px !important;
+    background-color: #206EEA !important;
+    color: white !important;
+    line-height: 44px !important;
+    position: relative;
+}
+.vertical-center{
+    position: relative;
+    transform: translateY(-50%);
+    top: 50%
+}
+.text-size-12{
+    font-size: 12px;
+}
+
+.text-size-13{
+    font-size: 13px;
+}
+
+.text-size-14{
+    font-size: 14px;
+}
+
+.text-size-16{
+    font-size: 16px;
+}
+
+.text-size-18{
+    font-size: 18px;
+}
+
+.text-size-20{
+    font-size: 20px;
+}
+
+.text-color-black{
+    color: #000;
+}
+
+.text-color-white{
+    color: white;
+}
+
+.cy-edit-color{
+    color: #6B6B6B;
+}
+
+.home-swiper-color{
+    color: #7F7F7F;
+}
+.text-color-gray-3{
+    color: #666;
+}
+.text-message-color{
+    color: #206EEA;
+}
+
+.search-color{
+    background: #7C7C7C;
+}
+
+
+.home-message-color{
+    color: #4FC2F1;
+}
+.background-blue-2{
+    background: #206EEA;
+}
+.background-message{
+    background: #EAF3FA
+}
+
+.background-white{
+    background: white;
+}
+.background-tzgg{
+    background: #FFF8D3
+}
+
+.background-tzgg-line{
+    background: #D6D0B1
+}
+
+.zx-dialog-save{
+    background: #579FF8;
+}
+
+.zx-dialog-name{
+    background: #F2F5FA;
+}
+
+
+
+

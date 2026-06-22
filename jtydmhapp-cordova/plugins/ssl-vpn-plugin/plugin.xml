@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin id="ssl-vpn-plugin" version="1.0.0" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+    <name>ssl-vpn-plugin</name>
+    <js-module name="ssl-vpn-plugin" src="www/ssl-vpn-plugin.js">
+        <clobbers target="SSLVPNPlugin" />
+    </js-module>
+	 <platform name="ios">
+        <config-file parent="/*" target="config.xml">
+            <feature name="SSLVPNPlugin">
+                <param name="ios-package" value="SSLVPNPlugin" />
+            </feature>
+        </config-file>
+        <source-file src="src/ios/SSLVPNPlugin.h" />
+        <source-file src="src/ios/SSLVPNPlugin.m" />
+        <source-file src="src/ios/SDKWrapper.h" />
+        <source-file src="src/ios/SDKWrapper.m" />
+        <source-file src="src/ios/ProgressHUD/MBProgressHUD.h" />
+        <source-file src="src/ios/ProgressHUD/MBProgressHUD.m" />
+        <source-file src="src/ios/ProgressHUD/CLProgressHUD.h" />
+        <source-file src="src/ios/ProgressHUD/CLProgressHUD.m" />
+    </platform>
+		  <!--添加我们自己的平台  -->
+    <platform name="android">  <!-- 平台类型 -->
+        <config-file target="res/xml/config.xml" parent="/*">  
+            <feature name="SSLVPNPlugin">  <!-- JS调用时的前缀名字 -->
+                <param name="android-package" value="com.secure.sslvpn.SSLVPNPlugin"/> <!-- .java类名全路径 --> 
+            </feature>  
+        </config-file>  
+		 <config-file target="AndroidManifest.xml" parent="/manifest">
+		 
+			<service
+            android:name="com.secure.sportal.sdk.vpn.SPNCService"
+            android:permission="android.permission.BIND_VPN_SERVICE">
+            <intent-filter>
+                <action android:name="android.net.VpnService" />
+            </intent-filter>
+        </service>
+          
+		 </config-file>
+        <source-file src="src/android/SSLVPNPlugin.java" target-dir="src/com/secure/sslvpn" />
+        <!-- src:java源文件的路径， target-dir:插件安装好后，源文件的位置，要和上面的包名对应 -->
+		 <source-file src="src/android/libs/libsecure_portal.jar" target-dir="libs"/>
+		 <source-file src="src/android/libs/armeabi/libsecure_portal.so" target-dir="libs/armeabi"/>
+		 <source-file src="src/android/libs/armeabi-v7a/libsecure_portal.so" target-dir="libs/armeabi-v7a"/>
+    </platform>
+</plugin>

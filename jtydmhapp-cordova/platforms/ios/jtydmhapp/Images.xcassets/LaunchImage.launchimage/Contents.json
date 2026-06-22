@@ -1,0 +1,181 @@
+{
+  "images" : [
+    {
+      "extent" : "full-screen",
+      "filename" : "Default-414-Max@3x.png",
+      "idiom" : "iphone",
+      "minimum-system-version" : "12.0",
+      "orientation" : "portrait",
+      "scale" : "3x",
+      "subtype" : "2688h"
+    },
+    {
+      "extent" : "full-screen",
+      "filename" : "Default-414-XR@2x.png",
+      "idiom" : "iphone",
+      "minimum-system-version" : "12.0",
+      "orientation" : "portrait",
+      "scale" : "2x",
+      "subtype" : "1792h"
+    },
+    {
+      "extent" : "full-screen",
+      "filename" : "Default-375@3x.png",
+      "idiom" : "iphone",
+      "minimum-system-version" : "11.0",
+      "orientation" : "portrait",
+      "scale" : "3x",
+      "subtype" : "2436h"
+    },
+    {
+      "extent" : "full-screen",
+      "filename" : "Default-Landscape-2436h.png",
+      "idiom" : "iphone",
+      "minimum-system-version" : "11.0",
+      "orientation" : "landscape",
+      "scale" : "3x",
+      "subtype" : "2436h"
+    },
+    {
+      "extent" : "full-screen",
+      "filename" : "Default-414@3x.png",
+      "idiom" : "iphone",
+      "minimum-system-version" : "8.0",
+      "orientation" : "portrait",
+      "scale" : "3x",
+      "subtype" : "736h"
+    },
+    {
+      "extent" : "full-screen",
+      "filename" : "Default-Landscape-736h.png",
+      "idiom" : "iphone",
+      "minimum-system-version" : "8.0",
+      "orientation" : "landscape",
+      "scale" : "3x",
+      "subtype" : "736h"
+    },
+    {
+      "extent" : "full-screen",
+      "filename" : "Default-375@2x.png",
+      "idiom" : "iphone",
+      "minimum-system-version" : "8.0",
+      "orientation" : "portrait",
+      "scale" : "2x",
+      "subtype" : "667h"
+    },
+    {
+      "extent" : "full-screen",
+      "filename" : "Default-320@2x.png",
+      "idiom" : "iphone",
+      "minimum-system-version" : "7.0",
+      "orientation" : "portrait",
+      "scale" : "2x"
+    },
+    {
+      "extent" : "full-screen",
+      "filename" : "Default-320-1136h@2x.png",
+      "idiom" : "iphone",
+      "minimum-system-version" : "7.0",
+      "orientation" : "portrait",
+      "scale" : "2x",
+      "subtype" : "retina4"
+    },
+    {
+      "extent" : "full-screen",
+      "filename" : "Default-Portrait~ipad.png",
+      "idiom" : "ipad",
+      "minimum-system-version" : "7.0",
+      "orientation" : "portrait",
+      "scale" : "1x",
+      "unassigned" : true
+    },
+    {
+      "extent" : "full-screen",
+      "filename" : "Default-Landscape~ipad.png",
+      "idiom" : "ipad",
+      "minimum-system-version" : "7.0",
+      "orientation" : "landscape",
+      "scale" : "1x",
+      "unassigned" : true
+    },
+    {
+      "extent" : "full-screen",
+      "filename" : "Default-Portrait@2x~ipad.png",
+      "idiom" : "ipad",
+      "minimum-system-version" : "7.0",
+      "orientation" : "portrait",
+      "scale" : "2x",
+      "unassigned" : true
+    },
+    {
+      "extent" : "full-screen",
+      "filename" : "Default-Landscape@2x~ipad.png",
+      "idiom" : "ipad",
+      "minimum-system-version" : "7.0",
+      "orientation" : "landscape",
+      "scale" : "2x",
+      "unassigned" : true
+    },
+    {
+      "extent" : "full-screen",
+      "filename" : "Default~iphone.png",
+      "idiom" : "iphone",
+      "orientation" : "portrait",
+      "scale" : "1x",
+      "unassigned" : true
+    },
+    {
+      "extent" : "full-screen",
+      "filename" : "Default@2x~iphone.png",
+      "idiom" : "iphone",
+      "orientation" : "portrait",
+      "scale" : "2x",
+      "unassigned" : true
+    },
+    {
+      "extent" : "full-screen",
+      "filename" : "Default-568h@2x~iphone.png",
+      "idiom" : "iphone",
+      "orientation" : "portrait",
+      "scale" : "2x",
+      "subtype" : "retina4",
+      "unassigned" : true
+    },
+    {
+      "extent" : "full-screen",
+      "filename" : "Default-Portrait~ipad.png",
+      "idiom" : "ipad",
+      "orientation" : "portrait",
+      "scale" : "1x",
+      "unassigned" : true
+    },
+    {
+      "extent" : "full-screen",
+      "filename" : "Default-Landscape~ipad.png",
+      "idiom" : "ipad",
+      "orientation" : "landscape",
+      "scale" : "1x",
+      "unassigned" : true
+    },
+    {
+      "extent" : "full-screen",
+      "filename" : "Default-Portrait@2x~ipad.png",
+      "idiom" : "ipad",
+      "orientation" : "portrait",
+      "scale" : "2x",
+      "unassigned" : true
+    },
+    {
+      "extent" : "full-screen",
+      "filename" : "Default-Landscape@2x~ipad.png",
+      "idiom" : "ipad",
+      "orientation" : "landscape",
+      "scale" : "2x",
+      "unassigned" : true
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin id="ScanCodePlugin" version="1.0.0" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+    <name>ScanCodePlugin</name>
+    <js-module name="ScanCodePlugin" src="www/ScanCodePlugin.js">
+        <clobbers target="ScanCodePlugin" />
+    </js-module>
+		  <!--添加我们自己的平台  -->
+    <platform name="android">  <!-- 平台类型 -->
+        <config-file target="res/xml/config.xml" parent="/*">  
+            <feature name="ScanCodePlugin">  <!-- JS调用时的前缀名字 -->
+                <param name="android-package" value="com.eccl.jtmh.ScanCodePlugin"/> <!-- .java类名全路径 --> 
+            </feature>  
+        </config-file>  
+		 <config-file target="AndroidManifest.xml" parent="/manifest">
+           <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+		<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+		<uses-permission android:name="android.permission.BLUETOOTH" />
+		<uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+		<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+		<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+		<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+		<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+		<uses-permission android:name="android.permission.INTERNET" /> <!-- 在sdcard中创建/删除文件的权限 -->
+		<uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+		<uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    </config-file>
+        <source-file src="src/android/ScanCodePlugin.java" target-dir="src/com/eccl/jtmh" />
+        <!-- src:java源文件的路径， target-dir:插件安装好后，源文件的位置，要和上面的包名对应 -->
+		<!--<lib-file src="src/android/libs/zxing.jar"/> -->
+		  <source-file src="src/android/libs/zxing.jar" target-dir="libs"/>
+		  <source-file src="src/android/res/layout/capture.xml" target-dir="res/layout" />
+		  <source-file src="src/android/res/raw/beep.ogg" target-dir="res/raw" />
+		  <source-file src="src/android/res/mipmap-ldpi/icon_back.png" target-dir="res/mipmap-ldpi" />
+		  <source-file src="src/android/res/mipmap-mdpi/icon_back.png" target-dir="res/mipmap-mdpi" />
+		  <source-file src="src/android/res/mipmap-xhdpi/icon_back.png" target-dir="res/mipmap-xhdpi" />
+		  <source-file src="src/android/res/mipmap-xxhdpi/icon_back.png" target-dir="res/mipmap-xxhdpi" />
+		  <source-file src="src/android/res/mipmap-xxxhdpi/icon_back.png" target-dir="res/mipmap-xxxhdpi" />
+		  <source-file src="src/android/res/mipmap-xhdpi/light.png" target-dir="res/mipmap-xhdpi" />
+		  <source-file src="src/android/res/mipmap-xhdpi/light1.png" target-dir="res/mipmap-xhdpi" />
+		  <source-file src="src/android/res/values/colors.xml" target-dir="res/values" />
+		  <source-file src="src/android/res/values/dimens.xml" target-dir="res/values" />
+		  <source-file src="src/android/res/values/ids.xml" target-dir="res/values" />
+		  <source-file src="src/android/res/values/strings.xml" target-dir="res/values" />
+		  <source-file src="src/android/res/values/strings.xml" target-dir="res/values" />
+
+    </platform>
+    <platform name="ios">
+        <config-file parent="/*" target="config.xml">
+            <feature name="ScanCodePlugin">
+                <param name="ios-package" value="ScanCodePlugin" />
+            </feature>
+        </config-file>
+        <source-file src="src/ios/ScanCodePlugin.h" />
+        <source-file src="src/ios/ScanCodePlugin.m" />
+        <source-file src="src/ios/CLScanCommon.h" />
+        <source-file src="src/ios/CLScanView.h" />
+        <source-file src="src/ios/CLScanView.m" />
+        <source-file src="src/ios/CLScanViewController.h" />
+        <source-file src="src/ios/CLScanViewController.m" />
+    </platform>
+</plugin>

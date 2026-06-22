@@ -1,0 +1,6 @@
+framework module HarmonyCloudiOSSDK {
+  umbrella header "HarmonyCloudiOSSDK.h"
+
+  export *
+  module * { export * }
+}

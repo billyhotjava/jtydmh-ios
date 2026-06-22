@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.eccl.jtmh" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>jtydmhapp</name>
+    <description>
+        A sample Apache Cordova application that responds to the deviceready event.
+    </description>
+    <author email="dev@cordova.apache.org" href="http://cordova.io">
+        Apache Cordova Team
+    </author>
+    <content src="index.html" />
+    <plugin name="cordova-plugin-whitelist" spec="1" />
+    <access origin="*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
+    <allow-navigation href="*" />
+    <allow-navigation href="http://*/*" />
+    <allow-navigation href="https://*/*" />
+    <platform name="android">
+        <allow-intent href="market:*" />
+    </platform>
+    <platform name="ios">
+        <allow-intent href="itms:*" />
+        <allow-intent href="itms-apps:*" />
+    </platform>
+    <engine name="ios" spec="~4.5.5" />
+    <plugin name="cordova-plugin-appavailability" spec="/Users/eccl/Work/jtydmhapp/plugins/cordova-plugin-appavailability" />
+    <plugin name="cordova-plugin-inappbrowser" spec="/Users/eccl/Work/jtydmhapp/plugins/cordova-plugin-inappbrowser" />
+    <plugin name="cordova-plugin-media-capture" spec="/Users/eccl/Work/jtydmhapp/plugins/cordova-plugin-media-capture">
+        <variable name="CAMERA_USAGE_DESCRIPTION" value=" " />
+        <variable name="MICROPHONE_USAGE_DESCRIPTION" value=" " />
+        <variable name="PHOTOLIBRARY_USAGE_DESCRIPTION" value=" " />
+    </plugin>
+    <plugin name="cordova-plugin-device" spec="/Users/eccl/Desktop/Cordova Plugins/cordova-plugin-device" />
+    <plugin name="cordova-plugin-call-number" spec="/Users/eccl/Work/jtydmhapp/plugins/cordova-plugin-call-number" />
+    <plugin name="cordova-plugin-app-version" spec="file:../plugins/cordova-plugin-app-version" />
+    <plugin name="cordova-hot-code-push-plugin" spec="^1.5.3" />
+    <plugin name="cordova-plugin-statusbar" spec="^3.0.0" />
+    <plugin name="cordova-sqlite-storage" spec="^6.0.0" />
+    <plugin name="cordova-plugin-app-utils" spec="/Users/eccl/Desktop/Cordova Plugins/AppUtilsPlugin" />
+    <plugin name="file-picker-plugin" spec="/Users/eccl/Desktop/Cordova Plugins/FilePickerPlugin" />
+    <plugin name="cordova-plugin-net-check" spec="/Users/eccl/Desktop/Cordova Plugins/NetworkPlugin" />
+    <plugin name="notification-plugin" spec="/Users/eccl/Desktop/Cordova Plugins/NotificationPlugin" />
+    <plugin name="ScanCodePlugin" spec="/Users/eccl/Desktop/Cordova Plugins/ScanCodePlugin" />
+    <plugin name="cordova-plugin-wkwebview-engine" spec="^1.2.2" />
+    <plugin name="ssl-vpn-plugin" spec="/Users/eccl/Desktop/Cordova Plugins/ssl-vpn-plugin" />
+    <plugin name="cordova-plugin-camera" spec="/Users/eccl/Desktop/Cordova Plugins/cordova-plugin-camera-4.2.x" />
+    <plugin name="cordova-plugin-imagepicker" spec="/Users/eccl/Desktop/Cordova Plugins/cordova-plugin-ImagePicker">
+        <variable name="CAMERA_USAGE_DESCRIPTION" value="拍照上传需要使用相机" />
+        <variable name="PHOTOLIBRARY_USAGE_DESCRIPTION" value="选图上传需要访问相册" />
+    </plugin>
+    <plugin name="open-webview-plugin" spec="/Users/eccl/Desktop/Cordova Plugins/open-webview-plugin" />
+</widget>

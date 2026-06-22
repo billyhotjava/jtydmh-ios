@@ -1,0 +1,33 @@
+//
+//  NotificationPlugin.h
+//  CordovaTest
+//
+//  Created by eccl on 2021/7/13.
+//
+
+#import <Cordova/CDVPlugin.h>
+
+NS_ASSUME_NONNULL_BEGIN
+
+/// 接收到远程推送通知
+extern NSString *const kDidReceiveRemoteNotification;
+
+@interface NotificationPlugin : CDVPlugin
+
+
+/// 注册通知（在页面）[包括本地通知 及 远程推送通知]
+/// @param command  Cordova 封装结果对象
+- (void)registerNotification:(CDVInvokedUrlCommand *)command;
+
+/// 发送通知    [In] title、body、identifier （跳转页面标识）
+/// @param command  Cordova 封装结果对象      点击本地通知后，将通知信息回调给 Cordova 前端页面
+- (void)sendNotification:(CDVInvokedUrlCommand *)command;
+
+
+/// 接收到远程推送通知的回调
+/// @param command  Cordova 封装结果对象      点击远程推送通知后，将通知信息回调给 Cordova 前端页面
+- (void)didReceiveRemoteNotification:(CDVInvokedUrlCommand *)command;
+
+@end
+
+NS_ASSUME_NONNULL_END

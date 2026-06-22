@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin id="open-webview-plugin" version="1.0.0" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+    <name>OpenWebViewPlugin</name>
+    <js-module name="open-webview-plugin" src="www/open-webview-plugin.js">
+        <clobbers target="OpenWebViewPlugin" />
+    </js-module>
+    <platform name="ios">
+        <config-file parent="/*" target="config.xml">
+            <feature name="OpenWebViewPlugin">
+                <param name="ios-package" value="OpenWebViewPlugin" />
+            </feature>
+        </config-file>
+        <source-file src="src/ios/OpenWebViewPlugin.h" />
+        <source-file src="src/ios/OpenWebViewPlugin.m" />
+        <source-file src="src/ios/CLCDVViewController.h" />
+        <source-file src="src/ios/CLCDVViewController.m" />
+        <source-file src="src/ios/CLWebViewController.h" />
+        <source-file src="src/ios/CLWebViewController.m" />
+        <source-file src="src/ios/VPN/CLVPNManager.h" />
+        <source-file src="src/ios/VPN/CLVPNManager.m" />
+        <source-file src="src/ios/SSZipArchive.h" />
+        <source-file src="src/ios/SSZipArchive.m" />
+        <source-file src="src/ios/include/ZipArchive.h" />
+        <source-file src="src/ios/SSZipCommon.h" />
+        <source-file src="src/ios/CLDownloadInVPNManager.h" />
+        <source-file src="src/ios/CLDownloadInVPNManager.m" />
+        <source-file src="src/ios/minizip/mz_strm_os_posix.c" />
+        <source-file src="src/ios/minizip/mz_strm_pkcrypt.c" />
+        <source-file src="src/ios/minizip/mz_strm_wzaes.h" />
+        <source-file src="src/ios/minizip/mz_compat.h" />
+        <source-file src="src/ios/minizip/mz_strm_zlib.c" />
+        <source-file src="src/ios/minizip/mz_zip.c" />
+        <source-file src="src/ios/minizip/mz_os.h" />
+        <source-file src="src/ios/minizip/mz_zip_rw.c" />
+        <source-file src="src/ios/minizip/mz_strm_split.h" />
+        <source-file src="src/ios/minizip/mz_strm_buf.h" />
+        <source-file src="src/ios/minizip/mz_crypt_apple.c" />
+        <source-file src="src/ios/minizip/mz_strm.h" />
+        <source-file src="src/ios/minizip/mz_strm_mem.c" />
+        <source-file src="src/ios/minizip/mz_crypt.c" />
+        <source-file src="src/ios/minizip/mz_strm_wzaes.c" />
+        <source-file src="src/ios/minizip/mz_strm_zlib.h" />
+        <source-file src="src/ios/minizip/mz_compat.c" />
+        <source-file src="src/ios/minizip/mz_strm_pkcrypt.h" />
+        <source-file src="src/ios/minizip/mz_zip_rw.h" />
+        <source-file src="src/ios/minizip/mz_os.c" />
+        <source-file src="src/ios/minizip/mz_zip.h" />
+        <source-file src="src/ios/minizip/mz_os_posix.c" />
+        <source-file src="src/ios/minizip/mz.h" />
+        <source-file src="src/ios/minizip/mz_strm_buf.c" />
+        <source-file src="src/ios/minizip/mz_strm_split.c" />
+        <source-file src="src/ios/minizip/mz_crypt.h" />
+        <source-file src="src/ios/minizip/mz_strm_mem.h" />
+        <source-file src="src/ios/minizip/mz_strm.c" />
+        <source-file src="src/ios/minizip/mz_strm_os.h" />
+    </platform>
+</plugin>

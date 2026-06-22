@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin id="open-webview-plugin" version="1.0.0" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+    <name>OpenWebViewPlugin</name>
+    <js-module name="open-webview-plugin" src="www/open-webview-plugin.js">
+        <clobbers target="OpenWebViewPlugin" />
+    </js-module>
+    <platform name="ios">
+        <config-file parent="/*" target="config.xml">
+            <feature name="OpenWebViewPlugin">
+                <param name="ios-package" value="OpenWebViewPlugin" />
+            </feature>
+        </config-file>
+        <source-file src="src/ios/OpenWebViewPlugin.h" />
+        <source-file src="src/ios/OpenWebViewPlugin.m" />
+        <source-file src="src/ios/CLCDVViewController.h" />
+        <source-file src="src/ios/CLCDVViewController.m" />
+    </platform>
+</plugin>

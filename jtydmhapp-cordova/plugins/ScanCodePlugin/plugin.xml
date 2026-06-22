@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin id="ScanCodePlugin" version="1.0.0" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+    <name>ScanCodePlugin</name>
+    <js-module name="ScanCodePlugin" src="www/ScanCodePlugin.js">
+        <clobbers target="ScanCodePlugin" />
+    </js-module>
+    <platform name="ios">
+        <config-file parent="/*" target="config.xml">
+            <feature name="ScanCodePlugin">
+                <param name="ios-package" value="ScanCodePlugin" />
+            </feature>
+        </config-file>
+        <source-file src="src/ios/ScanCodePlugin.h" />
+        <source-file src="src/ios/ScanCodePlugin.m" />
+        <source-file src="src/ios/CLScanCommon.h" />
+        <source-file src="src/ios/CLScanView.h" />
+        <source-file src="src/ios/CLScanView.m" />
+        <source-file src="src/ios/CLScanViewController.h" />
+        <source-file src="src/ios/CLScanViewController.m" />
+    </platform>
+</plugin>

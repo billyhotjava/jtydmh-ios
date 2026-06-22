@@ -1,0 +1,87 @@
+{
+  "prepare_queue": {
+    "installed": [],
+    "uninstalled": []
+  },
+  "config_munge": {
+    "files": {}
+  },
+  "installed_plugins": {
+    "cordova-plugin-whitelist": {
+      "PACKAGE_NAME": "com.eccl.jtydmh"
+    },
+    "com.lampa.startapp": {
+      "PACKAGE_NAME": "com.eccl.jtydmh"
+    },
+    "cordova-plugin-appavailability": {
+      "PACKAGE_NAME": "com.eccl.jtydmh"
+    },
+    "cordova-plugin-inappbrowser": {
+      "PACKAGE_NAME": "com.eccl.jtydmh"
+    },
+    "cordova-plugin-media-capture": {
+      "CAMERA_USAGE_DESCRIPTION": " ",
+      "MICROPHONE_USAGE_DESCRIPTION": " ",
+      "PHOTOLIBRARY_USAGE_DESCRIPTION": " ",
+      "PACKAGE_NAME": "com.eccl.jtydmh"
+    },
+    "cordova-plugin-device": {
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+    },
+    "cordova-plugin-call-number": {
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+    },
+    "cordova-plugin-app-version": {
+      "PACKAGE_NAME": "com.eccl.jtmh"
+    },
+    "cordova-hot-code-push-plugin": {
+      "PACKAGE_NAME": "com.eccl.jtmh"
+    },
+    "cordova-plugin-statusbar": {
+      "PACKAGE_NAME": "com.eccl.jtmh"
+    },
+    "cordova-sqlite-storage": {
+      "PACKAGE_NAME": "com.eccl.jtmh"
+    },
+    "cordova-plugin-app-utils": {
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+    },
+    "file-picker-plugin": {
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+    },
+    "cordova-plugin-net-check": {
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+    },
+    "notification-plugin": {
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+    },
+    "ScanCodePlugin": {
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+    },
+    "cordova-plugin-wkwebview-engine": {
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+    },
+    "ssl-vpn-plugin": {
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+    },
+    "cordova-plugin-camera": {
+      "PACKAGE_NAME": "com.eccl.jtmh"
+    },
+    "cordova-plugin-imagepicker": {
+      "CAMERA_USAGE_DESCRIPTION": "拍照上传需要使用相机",
+      "PHOTOLIBRARY_USAGE_DESCRIPTION": "选图上传需要访问相册",
+      "PACKAGE_NAME": "com.eccl.jtmh"
+    },
+    "open-webview-plugin": {
+      "PACKAGE_NAME": "com.eccl.jtmh"
+    }
+  },
+  "dependent_plugins": {
+    "cordova-plugin-compat": {
+      "PACKAGE_NAME": "com.eccl.jtydmh"
+    },
+    "cordova-plugin-file": {
+      "PACKAGE_NAME": "com.eccl.jtydmh"
+    }
+  }
+}

@@ -1,0 +1,307 @@
+//
+//  CDVUrlProtocolCustom.m
+//  CordovaTest
+//
+//  Created by eccl on 2021/7/5.
+//
+
+#import "CDVUrlProtocolCustom.h"
+#import <MobileCoreServices/MobileCoreServices.h>
+#import "SDKWrapper.h"
+#import "../../../jtydmhapp/Classes/CLReachability/CLReachability.h"
+
+@implementation NSURLRequest (NSURLRequestWithIgnoreSSL)
+
++ (BOOL)allowsAnyHTTPSCertificateForHost:(NSString *)host {
+//    NSLog(@"忽略证书认证: %@", host);
+    return YES;
+}
+
++ (void)setAllowsAnyHTTPSCertificate:(BOOL)allow forHost:(NSString*)host {
+    
+}
+
+@end
+
+NSString* const kCDVAssetsLibraryPrefixes = @"http://injection/";
+NSString* const CLHTTPS = @"CLHTTPS";
+
+
+@interface CDVUrlProtocolCustom () <NSURLConnectionDelegate, NSURLConnectionDataDelegate, NSURLSessionDelegate>
+
+@property (nonatomic, strong) NSURLConnection *connection;
+//@property (nonatomic, strong) NSURLRequest *clRequest;
+//@property (nonatomic, strong) NSURLResponse *clResponse;
+//@property (nonatomic, copy) NSMutableData *clData;
+@property (nonatomic) SSLAuthenticate authenticated;
+@property (nonatomic, strong) NSMutableData *receiveDataBuffer;
+@property (nonatomic, copy) NSString *receiveDataMime;
+
+@end
+
+@implementation CDVUrlProtocolCustom
+
+// 这个方法用来拦截H5页面请求
++ (BOOL)canInitWithRequest:(NSURLRequest*)theRequest
+{
+    NSURL* theUrl = [theRequest URL];
+    NSLog(@">>> %@", theUrl);
+//    NSLog(@"!!!!!!!!!!!!!! 过滤的 url: %@", theUrl);
+    // 判断是否是我们定义的url，若是，返回YES，继续执行其他方法，若不是，返回NO，不执行其他方法
+    if ([[theUrl absoluteString] hasPrefix:kCDVAssetsLibraryPrefixes] || [theUrl.path hasPrefix:@"plugins"]) {
+//        NSLog(@"!!!!!!!!!!!!!! 拦截 url: %@", theUrl);
+        return YES;
+//    } else if ([theUrl.scheme isEqualToString:@"https"]) {
+//    } else if ([theUrl.scheme hasPrefix:@"http"]) {
+    } else if ([CDVUrlProtocolCustom isShoudInterceptScheme:theUrl.scheme]) {
+//        if ([theUrl.absoluteString hasPrefix:@"https://mgs.sgeg.chnenergy.com.cn/transformDownload/download"]) {
+//            return NO;
+//        }
+        //如果是已经拦截过 则放行
+        if ([NSURLProtocol propertyForKey:CLHTTPS inRequest:theRequest]) {
+            return NO;
+        }
+        NSLog(@"!!!!!!!!!!!!!! 拦截 url: %@", theUrl);
+        return YES;
+    }
+
+    return NO;
+}
+
++ (NSURLRequest*)canonicalRequestForRequest:(NSURLRequest*)request
+{
+//    if ([request.URL.scheme isEqualToString:@"https"]) {
+//    if ([request.URL.scheme hasPrefix:@"http"]) {
+    if ([CDVUrlProtocolCustom isShoudInterceptScheme:request.URL.scheme]) {
+        NSMutableURLRequest *mutableRequest = [request mutableCopy];
+        [NSURLProtocol setProperty:@YES forKey:CLHTTPS inRequest:mutableRequest];
+        return [mutableRequest copy];
+    }
+    return request;
+}
+
++ (BOOL)isShoudInterceptScheme:(NSString *)url_scheme {
+//    return [self.request.URL.scheme isEqualToString:@"https"];
+    return [url_scheme hasPrefix:@"http"];
+}
+
+
+- (BOOL)isShoudInterceptScheme:(NSString *)url_scheme {
+//    return [self.request.URL.scheme isEqualToString:@"https"];
+//    return [self.request.URL.scheme hasPrefix:@"http"];
+    return [url_scheme hasPrefix:@"http"];
+}
+
+// 获取本地文件路径
+- (NSString*)pathForResource:(NSString*)resourcepath
+{
+    NSBundle* mainBundle = [NSBundle mainBundle];
+    NSMutableArray* directoryParts = [NSMutableArray arrayWithArray:[resourcepath componentsSeparatedByString:@"/"]];
+    NSString* filename = [directoryParts lastObject];
+    
+    [directoryParts removeLastObject];
+    NSString* directoryPartsJoined = [directoryParts componentsJoinedByString:@"/"];
+    NSString* directoryStr = @"www";
+    
+    if ([directoryPartsJoined length] > 0) {
+        directoryStr = [NSString stringWithFormat:@"%@/%@", directoryStr, [directoryParts componentsJoinedByString:@"/"]];
+    }
+    
+    return [mainBundle pathForResource:filename ofType:@"" inDirectory:directoryStr];
+}
+
+// 在canInitWithRequest方法返回YES以后，会执行该方法，完成替换资源并返回给H5页面
+- (void)startLoading
+{
+//    NSLog(@"!!!!!!!!!!!!!! 过滤的 start loading:");
+    if ([self isShoudInterceptScheme:self.request.URL.scheme]) {
+//        NSLog(@"startLoading------- %@, %@", self.request.URL, self.request.URL.scheme);
+        NSURLRequest *request = [[self class] canonicalRequestForRequest:self.request];
+//        self.connection = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:YES];
+//        self.clRequest = self.request;
+        
+        // 修改拦截 https 请求，交给 vpn 代理请求
+        NSDictionary *proxyConfigDic = nil;
+        NSInteger proxyPort = [[SDKWrapper getInstance] queryHttpProxyPort];
+        if(proxyPort) {
+            NSString *host = @"127.0.0.1";
+            proxyConfigDic = @{(NSString*)kCFStreamPropertyHTTPProxyHost: host,
+                               (NSString*)kCFStreamPropertyHTTPProxyPort: @(proxyPort),
+                               (NSString*)kCFNetworkProxiesHTTPEnable:@YES,
+                               (NSString*)kCFStreamPropertyHTTPSProxyHost: host,
+                               (NSString*)kCFStreamPropertyHTTPSProxyPort:@(proxyPort)
+            };
+        }
+        NSURLSessionDataTask *sessionTask = [self createSessionWithRequest:request withProxyConfig:proxyConfigDic];
+        [sessionTask resume];
+        return;
+    }
+    NSString* url = super.request.URL.absoluteString;
+    NSString* cordova = nil;
+    if ([url hasPrefix:kCDVAssetsLibraryPrefixes]) {
+        cordova = [url stringByReplacingOccurrencesOfString:kCDVAssetsLibraryPrefixes withString:@""];
+    } else if ([super.request.URL.path hasPrefix:@"plugins"]) {
+        cordova = super.request.URL.path;
+    }
+    NSURL* startURL = [NSURL URLWithString:cordova];
+    
+    
+    NSString* cordovaFilePath =[self pathForResource:[startURL path]];
+    NSLog(@"cordova file path: %@", cordovaFilePath);
+    if (!cordovaFilePath) {
+        [self sendResponseWithResponseCode:401 data:nil mimeType:nil];//重要
+        return;
+    }
+    CFStringRef pathExtension = (__bridge_retained CFStringRef)[cordovaFilePath pathExtension];
+    CFStringRef type = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, pathExtension, NULL);
+    CFRelease(pathExtension);
+    NSString *mimeType = (__bridge_transfer NSString *)UTTypeCopyPreferredTagWithClass(type, kUTTagClassMIMEType);
+    if (type != NULL)
+        CFRelease(type);
+    //    NSURLResponse *response = [[NSURLResponse alloc] initWithURL:super.request.URL    MIMEType:mimeType expectedContentLength:-1 textEncodingName:nil];
+    NSData* data = [NSData dataWithContentsOfFile:cordovaFilePath];
+    [self sendResponseWithResponseCode:200 data:data mimeType:mimeType];
+}
+
+- (NSURLSessionDataTask*)createSessionWithRequest:(NSURLRequest*)aRequest withProxyConfig:(NSDictionary*)proxyConfigDic {
+    NSLog(@"### 请求数据 %@", aRequest.URL);
+    NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+    config.connectionProxyDictionary = proxyConfigDic;
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:nil];
+    NSURLSessionDataTask* sessionTask = [session dataTaskWithRequest:aRequest];
+    return sessionTask;
+}
+
+#pragma mark - NSURLSessionDelegate
+
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveResponse:(NSURLResponse *)response completionHandler:(void (^)(NSURLSessionResponseDisposition disposition))completionHandler {
+    NSLog(@"### 收到数据 %@", dataTask.currentRequest.URL);
+//    NSLog(@"didReceiveResponse: %@", response);
+    self.receiveDataBuffer = [NSMutableData data];
+    NSString *mimeType = CLReachability.sharedInstance.fileMimeType;
+    if (mimeType && mimeType.length == 0) {
+        mimeType = response.MIMEType;
+    }
+    self.receiveDataMime = mimeType;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        CLReachability.sharedInstance.fileMimeType = @"";
+    });
+//    NSLog(@"MINEType: %@", self.receiveDataMime);
+    completionHandler(NSURLSessionResponseAllow);
+}
+
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveData:(NSData *)data {
+    NSLog(@"#### 收到数据 %@", dataTask.currentRequest.URL);
+//    NSLog(@"data: %@", data);
+//    NSLog(@"转化 %@", [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+    [self.receiveDataBuffer appendData:data];
+}
+
+- (void)URLSession:(NSURLSession *)session didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition, NSURLCredential *))completionHandler {
+//    NSLog(@"didReceiveChallenge: %@", challenge);
+    if([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust]){
+        NSURLCredential *credential = [NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust];
+        completionHandler(NSURLSessionAuthChallengeUseCredential,credential);
+    }
+}
+
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(nullable NSError *)error {
+    NSLog(@"### 收到数据Error %@, error: %@", task.currentRequest.URL, error);
+//    NSLog(@"error: %@", error);
+    [self sendResponseWithResponseCode:200 data:self.receiveDataBuffer mimeType:self.receiveDataMime];
+}
+- (void)stopLoading
+{
+    // do any cleanup here
+    if ([self isShoudInterceptScheme:self.request.URL.scheme]) {
+        [self.connection cancel];
+    }
+}
+
++ (BOOL)requestIsCacheEquivalent:(NSURLRequest*)requestA toRequest:(NSURLRequest*)requestB
+{
+    return NO;
+}
+
+// 将本地资源返回给H5页面
+- (void)sendResponseWithResponseCode:(NSInteger)statusCode data:(NSData*)data mimeType:(NSString*)mimeType
+{
+    if (mimeType == nil) {
+//        NSString *tempString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+//        if (tempString && tempString.length) {
+//            NSString *regex = @"<[!DOCTYPE html|meta]+.*?>.*?";
+//            NSRegularExpression *expression = [NSRegularExpression regularExpressionWithPattern:regex options:NSRegularExpressionCaseInsensitive error:nil];
+//            NSString *content = [expression stringByReplacingMatchesInString:tempString options:NSMatchingReportProgress range:NSMakeRange(0, tempString.length - 1) withTemplate:@""];
+//            NSLog(@"!!!!!!!!             %@", content);
+//            BOOL result = content && content.length;
+//            if (result) {
+                mimeType = @"text/html;charset=utf-8";
+//            } else {
+//                mimeType = @"text/plain";
+//            }
+//        } else {
+//            mimeType = @"text/plain";
+//        }
+    }
+    
+    NSHTTPURLResponse* response = [[NSHTTPURLResponse alloc] initWithURL:[[self request] URL] statusCode:statusCode HTTPVersion:@"HTTP/1.1" headerFields:@{@"Content-Type" : mimeType}];
+    
+    [[self client] URLProtocol:self didReceiveResponse:response cacheStoragePolicy:NSURLCacheStorageNotAllowed];
+    if (data != nil) {
+        [[self client] URLProtocol:self didLoadData:data];
+    }
+    [[self client] URLProtocolDidFinishLoading:self];
+}
+
+#pragma mark - NSURLConnectionDelegate
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
+    [self.client URLProtocol:self didFailWithError:error];
+}
+
+- (BOOL)connectionShouldUseCredentialStorage:(NSURLConnection *)connection {
+    return YES;
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge {
+//    NSLog(@"WebController 已经得到授权正在请求 NSURLConnection");
+    if ([challenge previousFailureCount] == 0){
+        _authenticated = kTryAuthenticate;
+        NSURLCredential *credential = [NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust];
+        [challenge.sender useCredential:credential forAuthenticationChallenge:challenge];
+    } else{
+        [[challenge sender] cancelAuthenticationChallenge:challenge];
+    }
+    [self.client URLProtocol:self didReceiveAuthenticationChallenge:challenge];
+}
+
+- (void)connection:(NSURLConnection *)connection didCancelAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge {
+    [self.client URLProtocol:self didCancelAuthenticationChallenge:challenge];
+}
+
+#pragma mark - NSURLConnectionDataDelegate
+
+- (NSURLRequest *)connection:(NSURLConnection *)connection willSendRequest:(NSURLRequest *)request redirectResponse:(NSURLResponse *)response {
+    if (response != nil) {
+        [self.client URLProtocol:self wasRedirectedToRequest:request redirectResponse:response];
+    }
+    return request;
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
+    [self.client URLProtocol:self didReceiveResponse:response cacheStoragePolicy:NSURLCacheStorageAllowed];
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
+    [self.client URLProtocol:self didLoadData:data];
+}
+
+- (NSCachedURLResponse *)connection:(NSURLConnection *)connection willCacheResponse:(NSCachedURLResponse *)cachedResponse {
+    return cachedResponse;
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+    [self.client URLProtocolDidFinishLoading:self];
+}
+
+@end

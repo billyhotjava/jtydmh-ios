@@ -1,0 +1,259 @@
+@charset "utf-8";
+
+/*-------------常用class--------------*/
+
+//row/col
+.row:after, .row:before {
+  display: table;
+  content: "";
+}
+
+.row:after {
+  clear: both;
+}
+
+.col {
+  float: left;
+  box-sizing: border-box;
+}
+
+.col-6 {
+  width: 25%;
+}
+
+.text-align-center {
+  text-align: center;
+}
+
+.bgwhite {
+  background-color: #fff !important;
+}
+
+.mt10 {
+  margin-top: 10px;
+}
+
+.mt1rem {
+  margin-top: 1rem;
+}
+
+.pl1rem {
+  padding-left: 1rem;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.flex1 {
+  //flex-grow: 1;
+  flex: 1;
+}
+
+.fr {
+  float: right;
+}
+
+.overflowhidden {
+  overflow: hidden;
+}
+
+.pr {
+  position: relative;
+}
+
+.pa {
+  position: absolute;
+}
+
+.h100{
+  height: 100%;
+}
+
+.w100{
+  width: 100%;
+}
+
+.bb{
+  border-bottom: 1px solid #f3f1f1;
+}
+
+.bt{
+  border-top: 1px solid #f3f1f1;
+}
+
+.center{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+
+.inline-block{
+  display: inline-block;
+}
+
+.rotate--90{
+  transform: rotate(-90deg);
+}
+
+.rotate-90{
+  transform: rotate(90deg);
+}
+
+
+.ellipsis{
+  white-space:nowrap;
+  text-overflow:ellipsis;
+  overflow:hidden;
+}
+
+.nodata{
+  font-size: 0.8rem;
+  color: #999;
+}
+/*--------------基本样式--------------*/
+
+body, input {
+  font: 1rem/1 tahoma, arial, 'Microsoft YaHei', simsun;
+}
+
+h2{
+  color: #333;
+}
+
+/*--------------布局--------------*/
+
+.tab-page {
+  height: 100%;
+
+  &.has-header {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .tab-content {
+    //flex-grow: 1;
+    flex: 1;
+    overflow-y: auto;
+    background-color: #F2F2F2;
+  }
+}
+
+/*首页tabbar布局*/
+.home {
+
+  display: flex;
+  flex-direction: column;
+
+  .mint-tab-container {
+    //flex-grow: 1;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  .mint-tab-container-wrap {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .mint-tabbar {
+    position: unset;
+    border-top: 1px solid #f3f1f1;
+  }
+
+}
+
+/*--------------公用样式--------------*/
+
+/*头部*/
+.mint-header {
+  height: 45px !important;
+  background-color: #206EEA !important;
+  color: white !important;
+  line-height: 44px !important;
+  position: relative;
+
+  .mint-header-title {
+    font-size: 1rem;
+    font-weight: bold;
+  }
+
+  .mint-header-button a{
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 0 20px 0 10px;
+  }
+}
+
+/*卡片按钮*/
+.card-btn {
+  text-align: center;
+  margin-bottom: 0.5rem;
+
+  h3 {
+    line-height: 2rem;
+    font-size: 0.85rem;
+    padding: 0 0.5rem;
+    color: #666666;
+  }
+
+  i {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 30px;
+    color: #fff;
+    /*color: #E6EAEF;*/
+  }
+
+  img{
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+  }
+}
+
+/*--------------修改ui样式--------------*/
+.mint-cell,.mint-cell-wrapper,.mint-cell-value{
+  background: none!important;
+  outline: none;
+  border: 0!important;
+}
+
+.mint-tabbar{
+  background-image: none!important;
+}
+
+.mint-loadmore-top{
+  font-size: 0.8rem;
+  color: #c1c1c1;
+}
+
+.mint-loadmore{
+  height: 100%;
+}
+
+/*--------------适配样式--------------*/
+
+//@media screen and (width: 375px) and (height: 812px){
+@media screen and (width: 375px) and (height: 768px){
+  .mint-tabbar {
+    padding-bottom: 34px;
+  }
+}
+
+@media screen and (width: 414px) and (height: 852px){
+  .mint-tabbar {
+    padding-bottom: 34px;
+  }
+}

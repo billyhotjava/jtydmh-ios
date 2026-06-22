@@ -1,0 +1,47 @@
+.DS_Store
+node_modules
+
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Build outputs
+build/
+dist/
+/www/
+/jtydmhapp-cordova/www/
+/jtydmhapp-cordova/platforms/*/www/
+/jtydmhapp-cordova/platforms/*/platform_www/
+coverage/
+DerivedData/
+*.ipa
+*.xcarchive
+*.app
+*.dSYM
+
+# iOS/macOS local files
+*.xcuserstate
+*.xcuserdata/
+xcuserdata/
+Pods/
+
+# Signing materials and local secrets
+*.p12
+*.cer
+*.certSigningRequest
+*.mobileprovision
+*.provisionprofile
+*.key
+*.pem
+*.jks
+*.keystore
+.env
+.env.*
+
+# Editor/OS noise
+.idea/
+.vscode/
+Thumbs.db

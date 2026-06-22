@@ -1,0 +1,1 @@
+# 本目录下的 config-custom-webview.xml 是和 config.xml 同内容，仅注释掉 HotCodePush 插件。其用在自定义 webview plugin 的 CLCDVViewController 类中，在加载本地插件时用到。因 config.xml 的 HotCodePush 会影响到 webview 的 request url。
