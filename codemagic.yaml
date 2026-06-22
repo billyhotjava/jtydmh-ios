@@ -34,11 +34,47 @@ workflows:
           mkdir -p "$IOS_DIR/www"
           cp -R jtydmhapp-cordova/www/. "$IOS_DIR/www/"
           cp -R "$IOS_DIR/platform_www/." "$IOS_DIR/www/"
-      - name: Install Cordova iOS build helper dependency
+      - name: Provide Cordova iOS build helper dependency
         script: |
           set -euxo pipefail
-          cd "$IOS_DIR"
-          npm install shelljs@0.5.3 --no-save
+          mkdir -p "$IOS_DIR/node_modules/shelljs"
+          cat > "$IOS_DIR/node_modules/shelljs/index.js" <<'EOF'
+          const fs = require('fs');
+          const path = require('path');
+          const childProcess = require('child_process');
+
+          function normalizePaths(args) {
+            return args.flat().filter(Boolean);
+          }
+
+          exports.rm = function rm(flags, ...paths) {
+            const recursive = String(flags).includes('r');
+            const force = String(flags).includes('f');
+            for (const target of normalizePaths(paths)) {
+              fs.rmSync(target, { recursive, force });
+            }
+            return { code: 0 };
+          };
+
+          exports.cp = function cp(flags, src, dest) {
+            const source = src;
+            let target = dest;
+            if (fs.existsSync(dest) && fs.statSync(dest).isDirectory()) {
+              target = path.join(dest, path.basename(source));
+            }
+            fs.copyFileSync(source, target);
+            return { code: 0 };
+          };
+
+          exports.exec = function exec(command) {
+            try {
+              childProcess.execSync(command, { stdio: 'inherit', shell: '/bin/bash' });
+              return { code: 0 };
+            } catch (error) {
+              return { code: typeof error.status === 'number' ? error.status : 1 };
+            }
+          };
+          EOF
       - name: Build iOS app for simulator without signing
         script: |
           set -euxo pipefail
@@ -94,11 +130,47 @@ workflows:
           mkdir -p "$IOS_DIR/www"
           cp -R jtydmhapp-cordova/www/. "$IOS_DIR/www/"
           cp -R "$IOS_DIR/platform_www/." "$IOS_DIR/www/"
-      - name: Install Cordova iOS build helper dependency
+      - name: Provide Cordova iOS build helper dependency
         script: |
           set -euxo pipefail
-          cd "$IOS_DIR"
-          npm install shelljs@0.5.3 --no-save
+          mkdir -p "$IOS_DIR/node_modules/shelljs"
+          cat > "$IOS_DIR/node_modules/shelljs/index.js" <<'EOF'
+          const fs = require('fs');
+          const path = require('path');
+          const childProcess = require('child_process');
+
+          function normalizePaths(args) {
+            return args.flat().filter(Boolean);
+          }
+
+          exports.rm = function rm(flags, ...paths) {
+            const recursive = String(flags).includes('r');
+            const force = String(flags).includes('f');
+            for (const target of normalizePaths(paths)) {
+              fs.rmSync(target, { recursive, force });
+            }
+            return { code: 0 };
+          };
+
+          exports.cp = function cp(flags, src, dest) {
+            const source = src;
+            let target = dest;
+            if (fs.existsSync(dest) && fs.statSync(dest).isDirectory()) {
+              target = path.join(dest, path.basename(source));
+            }
+            fs.copyFileSync(source, target);
+            return { code: 0 };
+          };
+
+          exports.exec = function exec(command) {
+            try {
+              childProcess.execSync(command, { stdio: 'inherit', shell: '/bin/bash' });
+              return { code: 0 };
+            } catch (error) {
+              return { code: typeof error.status === 'number' ? error.status : 1 };
+            }
+          };
+          EOF
       - name: Archive iOS app for device without signing
         script: |
           set -euxo pipefail
