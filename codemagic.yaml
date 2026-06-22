@@ -1,0 +1,119 @@
+workflows:
+  ios-simulator-build:
+    name: iOS simulator build, unsigned
+    max_build_duration: 60
+    instance_type: mac_mini_m2
+    environment:
+      xcode: latest
+      node: 14.21.3
+      vars:
+        IOS_DIR: jtydmhapp-cordova/platforms/ios
+        XCODE_SCHEME: jtydmhapp
+    cache:
+      cache_paths:
+        - $HOME/.npm
+    scripts:
+      - name: Prepare Cordova web assets
+        script: |
+          set -euxo pipefail
+
+          if [ -f package-lock.json ]; then
+            npm ci && npm run build || echo "Web rebuild failed; using committed jtydmhapp-cordova/www assets."
+          fi
+
+          if [ -d dist ] && [ -f dist/index.html ]; then
+            rm -rf jtydmhapp-cordova/www
+            mkdir -p jtydmhapp-cordova/www
+            cp -R dist/. jtydmhapp-cordova/www/
+          fi
+
+          test -f jtydmhapp-cordova/www/index.html
+          test -f "$IOS_DIR/platform_www/cordova.js"
+
+          rm -rf "$IOS_DIR/www"
+          mkdir -p "$IOS_DIR/www"
+          cp -R jtydmhapp-cordova/www/. "$IOS_DIR/www/"
+          cp -R "$IOS_DIR/platform_www/." "$IOS_DIR/www/"
+      - name: Install Cordova iOS build helper dependency
+        script: |
+          set -euxo pipefail
+          cd "$IOS_DIR"
+          npm install shelljs@0.5.3 --no-save
+      - name: Build iOS app for simulator without signing
+        script: |
+          set -euxo pipefail
+          mkdir -p "$CM_BUILD_DIR/build/ios_logs"
+          xcodebuild \
+            -project "$IOS_DIR/jtydmhapp.xcodeproj" \
+            -scheme "$XCODE_SCHEME" \
+            -configuration Debug \
+            -sdk iphonesimulator \
+            -destination 'generic/platform=iOS Simulator' \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
+            DEVELOPMENT_TEAM="" \
+            clean build | tee "$CM_BUILD_DIR/build/ios_logs/xcodebuild-simulator.log"
+    artifacts:
+      - build/ios_logs/*.log
+      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/Products/**/*.app
+      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/Products/**/*.dSYM
+
+  ios-unsigned-archive:
+    name: iOS device archive, unsigned
+    max_build_duration: 60
+    instance_type: mac_mini_m2
+    environment:
+      xcode: latest
+      node: 14.21.3
+      vars:
+        IOS_DIR: jtydmhapp-cordova/platforms/ios
+        XCODE_SCHEME: jtydmhapp
+    cache:
+      cache_paths:
+        - $HOME/.npm
+    scripts:
+      - name: Prepare Cordova web assets
+        script: |
+          set -euxo pipefail
+
+          if [ -f package-lock.json ]; then
+            npm ci && npm run build || echo "Web rebuild failed; using committed jtydmhapp-cordova/www assets."
+          fi
+
+          if [ -d dist ] && [ -f dist/index.html ]; then
+            rm -rf jtydmhapp-cordova/www
+            mkdir -p jtydmhapp-cordova/www
+            cp -R dist/. jtydmhapp-cordova/www/
+          fi
+
+          test -f jtydmhapp-cordova/www/index.html
+          test -f "$IOS_DIR/platform_www/cordova.js"
+
+          rm -rf "$IOS_DIR/www"
+          mkdir -p "$IOS_DIR/www"
+          cp -R jtydmhapp-cordova/www/. "$IOS_DIR/www/"
+          cp -R "$IOS_DIR/platform_www/." "$IOS_DIR/www/"
+      - name: Install Cordova iOS build helper dependency
+        script: |
+          set -euxo pipefail
+          cd "$IOS_DIR"
+          npm install shelljs@0.5.3 --no-save
+      - name: Archive iOS app for device without signing
+        script: |
+          set -euxo pipefail
+          mkdir -p "$CM_BUILD_DIR/build/ios_logs"
+          xcodebuild \
+            -project "$IOS_DIR/jtydmhapp.xcodeproj" \
+            -scheme "$XCODE_SCHEME" \
+            -configuration Release \
+            -sdk iphoneos \
+            -archivePath "$CM_BUILD_DIR/build/jtydmhapp.xcarchive" \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
+            DEVELOPMENT_TEAM="" \
+            clean archive | tee "$CM_BUILD_DIR/build/ios_logs/xcodebuild-archive.log"
+    artifacts:
+      - build/ios_logs/*.log
+      - build/*.xcarchive

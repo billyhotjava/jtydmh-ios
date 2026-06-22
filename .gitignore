@@ -12,9 +12,7 @@ pnpm-debug.log*
 build/
 dist/
 /www/
-/jtydmhapp-cordova/www/
 /jtydmhapp-cordova/platforms/*/www/
-/jtydmhapp-cordova/platforms/*/platform_www/
 coverage/
 DerivedData/
 *.ipa
