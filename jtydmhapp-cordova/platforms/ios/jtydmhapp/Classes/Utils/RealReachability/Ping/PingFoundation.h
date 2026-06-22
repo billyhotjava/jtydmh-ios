@@ -49,8 +49,6 @@
 
 #import <Foundation/Foundation.h>
 
-#include <sys/types.h>
-
 #if TARGET_OS_EMBEDDED || TARGET_IPHONE_SIMULATOR
 #import <CFNetwork/CFNetwork.h>
 #else
@@ -112,7 +110,7 @@ typedef NS_ENUM(NSInteger, PingFoundationAddressStyle) {
 /*! The address family for `hostAddress`, or `AF_UNSPEC` if that's nil.
  */
 
-@property (nonatomic, assign, readonly) sa_family_t hostAddressFamily;
+@property (nonatomic, assign, readonly) int hostAddressFamily;
 
 /*! The identifier used by pings by this object.
  *  \details When you create an instance of this object it generates a random identifier

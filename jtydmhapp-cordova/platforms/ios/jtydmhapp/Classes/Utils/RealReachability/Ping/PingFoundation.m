@@ -187,8 +187,8 @@ static uint16_t in_cksum(const void *buffer, size_t bufferLen) {
     [self stop];
 }
 
-- (sa_family_t)hostAddressFamily {
-    sa_family_t     result;
+- (int)hostAddressFamily {
+    int     result;
     
     result = AF_UNSPEC;
     if ( (self.hostAddress != nil) && (self.hostAddress.length >= sizeof(struct sockaddr)) )
