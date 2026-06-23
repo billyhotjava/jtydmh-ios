@@ -205,8 +205,54 @@ workflows:
             CODE_SIGN_IDENTITY="" \
             DEVELOPMENT_TEAM="" \
             clean archive | tee "$CM_BUILD_DIR/build/ios_logs/xcodebuild-archive.log"
+      - name: Package unsigned app for customer signing
+        script: |
+          set -euxo pipefail
+
+          PACKAGE_DIR="$CM_BUILD_DIR/build/customer-signing"
+          ARCHIVE_PATH="$CM_BUILD_DIR/build/jtydmhapp.xcarchive"
+          APP_PATH="$ARCHIVE_PATH/Products/Applications/jtydmhapp.app"
+
+          test -d "$ARCHIVE_PATH"
+          test -d "$APP_PATH"
+
+          rm -rf "$PACKAGE_DIR"
+          mkdir -p "$PACKAGE_DIR/entitlements"
+
+          ditto -c -k --keepParent "$ARCHIVE_PATH" "$PACKAGE_DIR/jtydmhapp-unsigned.xcarchive.zip"
+          ditto -c -k --keepParent "$APP_PATH" "$PACKAGE_DIR/jtydmhapp-unsigned.app.zip"
+
+          cp "$IOS_DIR/jtydmhapp/jtydmhappRelease.entitlements" "$PACKAGE_DIR/entitlements/main-app-release.entitlements"
+          cp "$IOS_DIR/PacketTunnel/PacketTunnel.entitlements" "$PACKAGE_DIR/entitlements/packet-tunnel.entitlements"
+
+          cat > "$PACKAGE_DIR/SIGNING-README.txt" <<'EOF'
+          This package is built without iOS code signing and is intended for the customer's own signing/distribution environment.
+
+          Targets that must be signed:
+          - Main app: jtydmhapp.app
+            Bundle ID: com.eccl.jtmh
+          - Extension: jtydmhapp.app/PlugIns/PacketTunnel.appex
+            Bundle ID: com.eccl.jtmh.PacketTunnel
+
+          Required customer signing assets:
+          - In-House/Enterprise iOS Distribution certificate
+          - Provisioning profile for com.eccl.jtmh
+          - Provisioning profile for com.eccl.jtmh.PacketTunnel
+
+          Entitlements to match in Apple Developer / signing system:
+          - Network Extension / packet-tunnel-provider
+          - App Groups: group.com.eccl.jtmh
+          - WiFi Info
+          - Push Notifications if enabled in the final profile
+          - iCloud container iCloud.iCloud-jtmh if kept in the release entitlement file
+
+          Sign the extension first, then the main app, then package Payload/jtydmhapp.app into an .ipa.
+          EOF
     artifacts:
       - build/ios_logs/*.log
+      - build/customer-signing/*.zip
+      - build/customer-signing/*.txt
+      - build/customer-signing/entitlements/*.entitlements
       - build/*.xcarchive
 
   ios-enterprise-ipa:
