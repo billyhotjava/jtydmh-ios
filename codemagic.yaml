@@ -224,6 +224,7 @@ workflows:
 
           cp "$IOS_DIR/jtydmhapp/jtydmhappRelease.entitlements" "$PACKAGE_DIR/entitlements/main-app-release.entitlements"
           cp "$IOS_DIR/PacketTunnel/PacketTunnel.entitlements" "$PACKAGE_DIR/entitlements/packet-tunnel.entitlements"
+          cp "$CM_BUILD_DIR/CUSTOMER_SIGNING_README.md" "$PACKAGE_DIR/CUSTOMER_SIGNING_README.md"
 
           cat > "$PACKAGE_DIR/SIGNING-README.txt" <<'EOF'
           This package is built without iOS code signing and is intended for the customer's own signing/distribution environment.
@@ -252,6 +253,7 @@ workflows:
       - build/ios_logs/*.log
       - build/customer-signing/*.zip
       - build/customer-signing/*.txt
+      - build/customer-signing/*.md
       - build/customer-signing/entitlements/*.entitlements
       - build/*.xcarchive
 
